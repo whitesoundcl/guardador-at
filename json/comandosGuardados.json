@@ -1,0 +1,58 @@
+{
+    "comandos": [
+        {
+            "nombre": "OK?",
+            "descripcion": "Si se devuelve un OK, la placa está viva.",
+            "comando": "AT",
+            "parametros": ""
+        },
+        {
+            "nombre": "Led rapido",
+            "descripcion": "Hace que el led interno de la placa parpadee rapido.",
+            "comando": "AT#SLED",
+            "parametros": "3,1,1"
+        },
+        {
+            "nombre": "Activar Codigos de error",
+            "descripcion": "En vez de decir ERROR, se retorna un código de error.",
+            "comando": "AT+CMEE",
+            "parametros": "2"
+        },
+        {
+            "nombre": "Modo ahorro energia",
+            "descripcion": "Se activa el modo de ahorro de energia de la placa.",
+            "comando": "AT+CFUN",
+            "parametros": "5"
+        },
+        {
+            "nombre": "CGD entel",
+            "descripcion": "Se conecta utilizando los datos de entel.",
+            "comando": "AT+CGDCONT",
+            "parametros": "1,\"IP\",\"bam.entelpcs.cl\",\"\",0,0"
+        },
+        {
+            "nombre": "CGD WOM",
+            "descripcion": "Se conecta utilizando los datos de WOM.",
+            "comando": "AT+CGDCONT",
+            "parametros": "1,\"IP\",\"internet\",\"0.0.0.0\",0,0"
+        },
+        {
+            "nombre": "SGACT entel",
+            "descripcion": "login en entel",
+            "comando": "AT#SGACT",
+            "parametros": "1,1,\"entelpcs\",\"entelpcs\""
+        },
+        {
+            "nombre": "SGACT WOM",
+            "descripcion": "Login en WOM",
+            "comando": "AT#SGACT",
+            "parametros": "1,1,\"\",\"\""
+        },
+        {
+            "nombre": "Prueba de conexión",
+            "descripcion": "Se realiza una prueba de conexión a google",
+            "comando": "AT#SD",
+            "parametros": "1,0,80,\"www.google.cl\""
+        }
+    ]
+}

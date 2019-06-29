@@ -1,0 +1,8 @@
+#salidaSerial, #listaComandos {
+    background: rgb(4, 41, 41);
+    height: 600px;
+    width: 100%;
+    overflow:scroll;
+    padding: 3%;
+    
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <title>El pulento documento</title>
+</head>
+
+<body>
+
+
+    <div class="row">
+        <div class="col s12">
+            <p>
+                <span class="blue-text text-darken-2">Salida serial: </span>
+            </p>
+        </div>
+        <div class="col s6">
+            <div id="salidaSerial">
+                <span class="purple-text text-lighten-5">u</span>
+
+            </div>
+            <br>
+
+            <input id="cmdEnviar" type="text">
+            <div class="row">
+                <div class="col s6">
+                    <a class="waves-effect waves-light btn" id="btnEnviarCmd">Enviar comando</a>
+
+                </div>
+                <div class="col s6">
+                    <a class="waves-effect waves-light btn" id="btnLimpiar">Limpiar Salida</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col s6">
+            <div id="listaComandos"></div>
+            <div class="row">
+                <div class="col s6">
+                    comando
+                    <input id="txtComandoGuardar" type="text">
+                    parametros
+                    <input id="txtParametrosGuardar" type="text">
+
+                </div>
+                <div class="col s6">
+                    nombre
+                    <input id="txtNombreGuardar" type="text">
+                    descripcion
+                    <input id="txtDescripcionGuardar" type="text">
+                    <a class="waves-effect waves-light btn" id="btnGuardarComando">Guardar comando</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="js/index.js"></script>
+</body>
+
+</html>
