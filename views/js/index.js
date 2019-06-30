@@ -15,7 +15,7 @@ const listaComandos = document.getElementById("listaComandos");
 var arregloComandos = [];
 var arregloBotones = document.getElementsByClassName("comando");
 
-function agregarComando(index, comando) {
+function agregarBotonComando(index, comando) {
 
     listaComandos.innerHTML +=
         `<a class="waves-effect waves-light btn comando" name=${index} >${comando.nombre}</a><br>`;
@@ -38,13 +38,26 @@ function enviarComando() {
     cmdEnviar.value = "";
 }
 
-function actualizarGuardarComandos(comando){
-    let split = comando.split("=");
-    txtNombreGuardar.value = split[0];
-    txtComandoGuardar.value = split[0];
-    if(comando.includes("=")){
-        txtParametrosGuardar.value = split[1];
+function actualizarGuardarComandos(comando) {
+    if(comando.nombre){
+        txtNombreGuardar.value = comando.nombre;
+        txtComandoGuardar.value = comando.comando;
+        txtDescripcionGuardar.value = comando.descripcion;
+        txtParametrosGuardar.value = comando.parametros;
+    } else {
+        txtNombreGuardar.value = "";
+        txtComandoGuardar.value = "";
+        txtDescripcionGuardar.value = "";
+        txtParametrosGuardar.value = "";
+        let split = comando.split("=");
+        txtNombreGuardar.value = split[0];
+        txtComandoGuardar.value = split[0];
+        if (comando.includes("=")) {
+            txtParametrosGuardar.value = split[1];
+        }
+        
     }
+        
 }
 
 ipcRenderer.on("linea", (e, texto) => {
@@ -53,14 +66,11 @@ ipcRenderer.on("linea", (e, texto) => {
 
 
 ipcRenderer.on('comandos', (e, comandos) => {
-    //console.log(comandos.comandos);
     arregloComandos = comandos.comandos;
-    console.log(arregloComandos.length);
-
     listaComandos.innerHTML = "";
     for (let i = 0; i < arregloComandos.length; i++) {
         const comando = arregloComandos[i];
-        agregarComando(i, comando);
+        agregarBotonComando(i, comando);
     }
     arregloBotones = document.getElementsByClassName("comando");
     for (let i = 0; i < arregloBotones.length; i++) {
@@ -68,42 +78,41 @@ ipcRenderer.on('comandos', (e, comandos) => {
         boton.onclick = (e) => {
             e.preventDefault();
             let comando = arregloComandos[boton.name];
-            console.log(comando);
             cmdEnviar.value = comando.comando;
             if (comando.parametros.length > 0) {
                 cmdEnviar.value += `=${comando.parametros}`;
             }
             cmdEnviar.focus();
-            actualizarGuardarComandos(cmdEnviar.value);
-
+            actualizarGuardarComandos(comando);
         }
     }
 });
 btnGuardarComando.onclick = () => {
     let comandoNuevo = {
-        nombre : txtNombreGuardar.value,
-        descripcion : txtDescripcionGuardar.value,
-        comando : txtComandoGuardar.value,
-        parametros : txtParametrosGuardar.value
-
+        nombre: txtNombreGuardar.value,
+        descripcion: txtDescripcionGuardar.value,
+        comando: txtComandoGuardar.value,
+        parametros: txtParametrosGuardar.value
     }
     arregloComandos.push(comandoNuevo);
-
-    ipcRenderer.send("comando nuevo", {comandos: arregloComandos} );
+    ipcRenderer.send("comando nuevo", { comandos: arregloComandos });
 }
 
 btnEnviarCmd.onclick = (e) => {
     enviarComando();
 }
 
-cmdEnviar.onkeypress = (e) => {
+cmdEnviar.onkeydown = (e)=>{
+    if(e.keyCode == 8) 
+        actualizarGuardarComandos(cmdEnviar.value);
+}
 
+cmdEnviar.onkeypress = (e) => {
     if (e.keyCode == 13) {
         enviarComando();
     } else {
         actualizarGuardarComandos(cmdEnviar.value);
     }
-
 };
 
 
@@ -113,5 +122,5 @@ btnLimpiar.onclick = () => {
 }
 
 setTimeout(() => {
-    ipcRenderer.send("lista comandos", {comandos: arregloComandos} );
+    ipcRenderer.send("lista comandos", { comandos: arregloComandos });
 }, 1000);
