@@ -11,8 +11,8 @@ let serial = false;
 // Crea la ventana de navegador:
 function iniciarVista() {
     let ventana = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
         webPreferences: {
             nodeIntegration: true
         }
@@ -32,9 +32,11 @@ function iniciarVista() {
      * Envia un comando a la placa
      */
     ipcMain.on("comando", (e,texto)=>{
-        //console.log(`recibido: ${texto}`);
+        //console.log(`recibido: ${texto}`);z 
         if (serial) {
             serial.getPort().write(texto+'\r');
+            //console.log(texto);
+            
         } else {
             emitirError("No hay comunicación serial");
         }
@@ -59,10 +61,16 @@ function iniciarVista() {
                 serial = false;
             } else {
                 console.log("Comunicacion serial existosa");
+                serial.getParser().on("data", (data)=>{
+                    
+                    ventana.webContents.send("linea", data );
+            
+                });
             }
         });
-    })
+    });
 
+    
     /**
      * Esta función emite la lista de comandos almacenados
      * en el json de comandosGuardados.
