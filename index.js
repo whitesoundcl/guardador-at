@@ -90,30 +90,3 @@ function iniciarVista() {
 
 app.on('ready', iniciarVista);
 
-
-
-//const TerminalReader = require(path.join(__dirname, 'TerminalReader'));
-//const SerialHelper = require(path.join(__dirname, 'SerialHelper'));
-
-
-//const terminal = new TerminalReader().getTerminal();
-//const serial = new SerialHelper("/dev/ttyUSB0", 9600, 4000);
-
-//webServer.run(4000);
-
-//parser.on('data', line => console.log(`> ${line}`))
-
-//> ROBOT ONLINE
-/*
-rl.question('What do you think of Node.js? ', (answer) => {
-    port.write(answer+'\r');
-});
-*/
-//console.log(path.join(__dirname, 'WebServer'));
-/*
-terminal.on('line', (input) => {
-    console.log(`HE recibodo ${input}`);
-
-
-    //port.write(input+'\r');
-});*/
