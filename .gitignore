@@ -61,4 +61,4 @@ typings/
 .next
 
 # Cada archivo de comandos es propio de cada usuario
-json/comandosGuardados.json
+json/

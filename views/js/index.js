@@ -22,7 +22,7 @@ var arregloBotones = document.getElementsByClassName("comando");
 function agregarBotonComando(index, comando) {
 
     listaComandos.innerHTML +=
-        `<a class="waves-effect waves-light btn comando" name=${index} >${comando.nombre}(${comando.comando})</a><br>`;
+        `<a class="waves-effect waves-light btn-small comando" name=${index} >${comando.nombre}(${comando.comando})</a><br>`;
 
 }
 
