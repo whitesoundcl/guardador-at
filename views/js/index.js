@@ -5,11 +5,15 @@ const salidaSerial = document.getElementById("salidaSerial");
 const cmdEnviar = document.getElementById("cmdEnviar");
 const btnEnviarCmd = document.getElementById("btnEnviarCmd");
 const btnLimpiar = document.getElementById("btnLimpiar");
+const btnIniciarConexion = document.getElementById("btnIniciarConexion");
+const btnCerrarConexion = document.getElementById("btnCerrarConexion");
+const txtPuertoSerial = document.getElementById("txtPuertoSerial");
 const txtComandoGuardar = document.getElementById("txtComandoGuardar");
 const txtParametrosGuardar = document.getElementById("txtParametrosGuardar");
 const txtNombreGuardar = document.getElementById("txtNombreGuardar");
 const txtDescripcionGuardar = document.getElementById("txtDescripcionGuardar");
 const btnGuardarComando = document.getElementById("btnGuardarComando");
+const lblError = document.getElementById("lblError");
 const listaComandos = document.getElementById("listaComandos");
 //const socket = io.connect('http://localhost:4000', { 'forceNew': true });
 var arregloComandos = [];
@@ -18,7 +22,7 @@ var arregloBotones = document.getElementsByClassName("comando");
 function agregarBotonComando(index, comando) {
 
     listaComandos.innerHTML +=
-        `<a class="waves-effect waves-light btn comando" name=${index} >${comando.nombre}</a><br>`;
+        `<a class="waves-effect waves-light btn comando" name=${index} >${comando.nombre}(${comando.comando})</a><br>`;
 
 }
 
@@ -63,6 +67,11 @@ function actualizarGuardarComandos(comando) {
 ipcRenderer.on("linea", (e, texto) => {
     agregarLinea("Serial Dice", texto);
 });
+ipcRenderer.on("err", (e, texto)=>{
+    emitirError(texto);
+    
+    
+});
 
 
 ipcRenderer.on('comandos', (e, comandos) => {
@@ -87,6 +96,20 @@ ipcRenderer.on('comandos', (e, comandos) => {
         }
     }
 });
+btnCerrarConexion.onclick =() =>{
+    ipcRenderer.send("desconectar");
+
+}
+
+btnIniciarConexion.onclick = () =>{
+    if(txtPuertoSerial.value.length > 0){
+        ipcRenderer.send("conectar", {dispositivo : txtPuertoSerial.value, baudios: 9600});
+    } else {
+        emitirError("¿A que puerto debo conectarme?");
+
+    }
+}
+
 btnGuardarComando.onclick = () => {
     let comandoNuevo = {
         nombre: txtNombreGuardar.value,
@@ -102,18 +125,16 @@ btnEnviarCmd.onclick = (e) => {
     enviarComando();
 }
 
-cmdEnviar.onkeydown = (e)=>{
-    if(e.keyCode == 8) 
+cmdEnviar.onkeyup = (e)=>{
+    if(e.keyCode == 8) {
         actualizarGuardarComandos(cmdEnviar.value);
-}
-
-cmdEnviar.onkeypress = (e) => {
-    if (e.keyCode == 13) {
+    } else if (e.keyCode == 13) {
         enviarComando();
     } else {
         actualizarGuardarComandos(cmdEnviar.value);
     }
-};
+}
+
 
 
 
@@ -124,3 +145,8 @@ btnLimpiar.onclick = () => {
 setTimeout(() => {
     ipcRenderer.send("lista comandos", { comandos: arregloComandos });
 }, 1000);
+
+const emitirError = (error) =>{
+    lblError.innerHTML = error;
+
+}

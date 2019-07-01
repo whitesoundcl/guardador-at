@@ -15,8 +15,17 @@
 </head>
 
 <body>
+    <p id="lblError">errores:</p>
+    <div class="row">
+        <div class="col s6">
+            Puerto Serial:    
+            <input id="txtPuertoSerial" type="text">
 
-
+        </div>
+        <div class="col s6">
+            <a class="waves-effect waves-light btn" id="btnIniciarConexion">conectar</a>
+        </div>
+    </div>
     <div class="row">
         <div class="col s12">
             <p>
@@ -59,8 +68,10 @@
                     <input id="txtDescripcionGuardar" type="text">
                     <a class="waves-effect waves-light btn" id="btnGuardarComando">Guardar comando</a>
                 </div>
+                
             </div>
         </div>
+        <a class="waves-effect waves-light btn" id="btnCerrarConexion">Cerrar conexión</a>
 
     </div>
 

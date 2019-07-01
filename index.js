@@ -52,6 +52,20 @@ function iniciarVista() {
     })
 
     /**
+     * Cada vez que el usuario desee liberar el puerto serial del 
+     * programa se ejecutara este evento.
+     */
+    ipcMain.on("desconectar", (e)=>{
+        if(serial){
+            serial.getPort().close((e) =>{
+                emitirError(e);
+            });
+        } else {
+            emitirError("No hay una comunicación activa");
+        }
+    });
+
+    /**
      * Este evento busca realizar la comunicacion serial.
      */
     ipcMain.on("conectar", (e, info)=>{
@@ -62,13 +76,12 @@ function iniciarVista() {
             } else {
                 console.log("Comunicacion serial existosa");
                 serial.getParser().on("data", (data)=>{
-                    
                     ventana.webContents.send("linea", data );
-            
                 });
             }
         });
     });
+
 
     
     /**
@@ -84,7 +97,7 @@ function iniciarVista() {
      */
     function emitirError(e) {
         console.log(`Se ha emitido un error: ${e}`);
-        ventana.webContents.send("error", e);
+        ventana.webContents.send("err", e);
     }
 }
 
